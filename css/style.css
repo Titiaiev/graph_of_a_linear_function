@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#canvas-container {
+    width: 650px;
+    height: 650px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+}
+
+#answers {
+    position: absolute;
+    bottom: 170px;
+    right: -235px;
+    border: 1px solid #000;
+    padding: 10px;
+    border-radius: 3px;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+/*    width: 170px;*/
+}
+
+#answers tr:nth-child(1) {
+    color: red;
+}
+
+#answers tr:nth-child(2) {
+    color: blue;
+}
+
+#answers tr {
+    font-size: 24px;
+}
+
+#answers:hover,
+#answers:active,
+#answers:focus {
+    opacity: 1;
+}
+
+#answers input {
+    width: 100px;
+    padding: 1px 3px;
+    text-align: left;
+}
+
+
+#canvas-container #start {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    border: 0;
+    box-shadow: 1px 1px 2px #d585a3, -1px -1px 2px #d585a3;
+    outline: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #d585a3;
+    font-size: 18px;
+    text-shadow: 1px 1px 4px #999;
+    /*margin: 20px;*/
+    position: absolute;
+    bottom: 30px;
+    right: -200px;
+}
+
+
+#canvas-container #start:hover,
+#canvas-container #start:active {
+    background-color: #d76bc2;
+}
+
+#canvas-container #start:active {
+    box-shadow: none;
+}
+
+#about {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    background-color: #999;
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    bottom: 30px;
+    right: -250px;
+    outline: none;
+    outline: 0;
+}
+
+#about-tip {
+    width: 600px;
+    background-color: #999;
+    border-radius: 3px;
+    padding: 5px 10px;
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    margin-left: -300px;
+    z-index: 1000;
+    box-shadow: 10px 20px 40px #555;
+    color: #fff;
+    font-size: 18px;
+    opacity: 0;
+    transition: top 0.8s ease-in-out,
+    opacity 1.2s ease-in-out;
+}
+
+#about-close {
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    color: #999;
+    outline: 0;
+    font-size: 18px;
+}
+
+#about-close:active {
+    transform: translateY(1px)
+}
+
+#about-tip.show {
+    top: 40%;
+    opacity: 1;
+}
+
+#canvas,
+#grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border:5px solid #999;
+}
+
+#grid {
+    opacity: 0.2;
+}

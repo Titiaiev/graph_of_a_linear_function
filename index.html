@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Тренажер линейной функции y = bx + a</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div id="canvas-container">
+
+        <canvas id="canvas" width="650" height="650"></canvas>
+        <canvas id="grid" width="650" height="650"></canvas>
+
+        <!-- окно описания -->
+        <div id="about-tip">
+            это тренажер линейной функции y = bx + a
+            <button id="about-close" onclick="document.getElementById('about-tip').className = ''">ok</button>
+        </div>
+
+        <!-- кнопка ? При нажатии показывает описани скрипта -->
+        <button id="about" onclick="document.getElementById('about-tip').className ='show'">?</button>
+
+
+        <table id="answers">
+            <tr>
+                <td>y = <input type="text"></td>
+            </tr>
+            <tr style="display: none">
+                <td>y = <input type="text"></td>
+            </tr>
+        </table>
+
+        <button id="start" data-state="start">Старт</button>
+    </div>
+
+    <script src="js/grid.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="js/inputParse.js"></script>
+</body>
+
+</html>
