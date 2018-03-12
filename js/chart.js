@@ -168,6 +168,15 @@ Chart.prototype.drawLine = function (firstPoint, secondPoint, color) {
     ctx.stroke();
 };
 
+Chart.prototype.drawGrafic = function () {
+    ctx.strokeStyle = color || "red";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(this.x0, this.y0);
+    ctx.lineTo(secondPoint[0], secondPoint[1]);
+    ctx.stroke();
+}
+
 // y = b * x
 Chart.prototype.f2 = function (b) {
     var o = this.setPoint(0, 0);
