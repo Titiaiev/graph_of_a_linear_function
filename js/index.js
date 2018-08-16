@@ -1,9 +1,9 @@
 /* eslint import/extensions: 0  no-alert: 0 */
 import drawGrid from './grid.js';
-import Chart from './Chart.js';
+import Chart from './chart.js';
 import { inputParse } from './inputParse.js';
 
-const app = document.getElementById('app');
+// const app = document.getElementById('app');
 
 const size =
   document.documentElement.clientWidth < document.documentElement.clientHeight
