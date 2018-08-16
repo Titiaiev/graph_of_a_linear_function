@@ -1,7 +1,3 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const { width, height } = canvas;
-
 const startBtn = document.getElementById('start');
 const table = document.getElementById('answers');
 const btnCheck = document.getElementById('start');
@@ -42,205 +38,240 @@ function randomFunction() {
   return Math.floor(Math.random() * 4 + 1);
 } // console.log(randomFunction());
 
-const Chart = function() {
-  this.x0 = width / 2;
-  this.y0 = height / 2;
-  this.x = width / 2;
-  this.y = height / 2;
-  this.step = 25;
-};
-
-Chart.prototype.coordinateSystem = function() {
-  // координатная плоскость
-  ctx.lineWidth = 2;
-  ctx.font = '25px sans-serif';
-  ctx.fillStyle = 'black';
-  ctx.beginPath();
-  // x
-  ctx.moveTo(20, height / 2);
-  ctx.lineTo(width - 20, height / 2);
-  ctx.fillText('X', width - 20, height / 2 - 10);
-  // стрелка
-  ctx.moveTo(width - 30, height / 2 - 5);
-  ctx.lineTo(width - 20, height / 2);
-  ctx.lineTo(width - 30, height / 2 + 5);
-
-  // y
-  ctx.moveTo(width / 2, 20);
-  ctx.lineTo(width / 2, height - 20);
-  ctx.fillText('Y', width / 2 + 10, 30);
-  // стрелка
-  ctx.moveTo(width / 2 - 5, 30);
-  ctx.lineTo(width / 2, 20);
-  ctx.lineTo(width / 2 + 5, 30);
-  ctx.stroke();
-
-  // шкала
-  positiveX();
-  negativeX();
-  negativeY();
-  positiveY();
-};
-
-// функции прорисовки шкалы по соответствующим осям
-function positiveX() {
-  ctx.beginPath();
-  ctx.lineWidth = 0.5;
-  ctx.font = '10px sans-serif';
-  let num = 0;
-  for (let xStep = width / 2; xStep < width - 25; xStep += 25) {
-    ctx.moveTo(xStep, height / 2 - 5);
-    ctx.lineTo(xStep, height / 2 + 5);
-
-    if (num != 0) {
-      ctx.fillText(num, xStep, height / 2 + 15);
-    }
-    num++;
+class Chart {
+  constructor({ canvas, setStep }) {
+    this.canvas = canvas;
+    this.step = setStep;
   }
-  ctx.stroke();
-}
 
-function negativeX() {
-  ctx.beginPath();
-  ctx.lineWidth = 0.5;
-  ctx.font = '10px sans-serif';
-  let number = 0;
-  for (let xStep = width / 2; xStep > 25; xStep -= 25) {
-    ctx.moveTo(xStep, height / 2 - 5);
-    ctx.lineTo(xStep, height / 2 + 5);
-
-    if (number != 0) {
-      ctx.fillText(-number, xStep, height / 2 - 15);
-    }
-    number++;
+  get ctx() {
+    return this.canvas.getContext('2d');
   }
-  ctx.stroke();
-}
 
-function negativeY() {
-  ctx.beginPath();
-  ctx.lineWidth = 0.5;
-  ctx.font = '10px sans-serif';
-  let numb = 0;
-  for (let yStep = height / 2; yStep < height - 25; yStep += 25) {
-    ctx.moveTo(width / 2 - 5, yStep);
-    ctx.lineTo(width / 2 + 5, yStep);
-
-    if (numb != 0) {
-      ctx.fillText(-numb, width / 2 - 20, yStep);
-    }
-    numb++;
+  get width() {
+    return this.canvas.width;
   }
-  ctx.stroke();
-}
 
-function positiveY() {
-  ctx.beginPath();
-  ctx.lineWidth = 0.5;
-  ctx.font = '10px sans-serif';
-  let numb = 0;
-  for (let yStep = height / 2; yStep > 25; yStep -= 25) {
-    ctx.moveTo(width / 2 - 5, yStep);
-    ctx.lineTo(width / 2 + 5, yStep);
-
-    if (numb != 0) {
-      ctx.fillText(numb, width / 2 + 20, yStep);
-    }
-    numb++;
+  get height() {
+    return this.canvas.height;
   }
-  ctx.stroke();
+
+  get x0() {
+    return this.width / 2;
+  }
+
+  get y0() {
+    return this.height / 2;
+  }
+
+  get x() {
+    return this.width / 2;
+  }
+
+  get y() {
+    return this.height / 2;
+  }
+
+  coordinateSystem() {
+    const { ctx, width, height } = this;
+
+    // координатная плоскость
+    ctx.lineWidth = 2;
+    ctx.font = '25px sans-serif';
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    // ресуем ось x
+    ctx.moveTo(20, height / 2);
+    ctx.lineTo(width - 20, height / 2);
+    ctx.fillText('X', width - 20, height / 2 - 10);
+    // стрелка на оси x
+    ctx.moveTo(width - 30, height / 2 - 5);
+    ctx.lineTo(width - 20, height / 2);
+    ctx.lineTo(width - 30, height / 2 + 5);
+
+    // ресуем ось y
+    ctx.moveTo(width / 2, 20);
+    ctx.lineTo(width / 2, height - 20);
+    ctx.fillText('Y', width / 2 + 10, 30);
+    // стрелка на оси y
+    ctx.moveTo(width / 2 - 5, 30);
+    ctx.lineTo(width / 2, 20);
+    ctx.lineTo(width / 2 + 5, 30);
+    ctx.stroke();
+
+    // функции прорисовки шкалы по соответствующим осям
+    function positiveX() {
+      ctx.beginPath();
+      ctx.lineWidth = 0.5;
+      ctx.font = '10px sans-serif';
+      let num = 0;
+      for (let xStep = width / 2; xStep < width - 25; xStep += 25) {
+        ctx.moveTo(xStep, height / 2 - 5);
+        ctx.lineTo(xStep, height / 2 + 5);
+
+        if (num !== 0) {
+          ctx.fillText(num, xStep, height / 2 + 15);
+        }
+        num += num;
+      }
+      ctx.stroke();
+    }
+
+    function negativeX() {
+      ctx.beginPath();
+      ctx.lineWidth = 0.5;
+      ctx.font = '10px sans-serif';
+      let number = 0;
+      for (let xStep = width / 2; xStep > 25; xStep -= 25) {
+        ctx.moveTo(xStep, height / 2 - 5);
+        ctx.lineTo(xStep, height / 2 + 5);
+
+        if (number !== 0) {
+          ctx.fillText(-number, xStep, height / 2 - 15);
+        }
+        number += number;
+      }
+      ctx.stroke();
+    }
+
+    function negativeY() {
+      ctx.beginPath();
+      ctx.lineWidth = 0.5;
+      ctx.font = '10px sans-serif';
+      let numb = 0;
+      for (let yStep = height / 2; yStep < height - 25; yStep += 25) {
+        ctx.moveTo(width / 2 - 5, yStep);
+        ctx.lineTo(width / 2 + 5, yStep);
+
+        if (numb !== 0) {
+          ctx.fillText(-numb, width / 2 - 20, yStep);
+        }
+        numb += numb;
+      }
+      ctx.stroke();
+    }
+
+    function positiveY() {
+      ctx.beginPath();
+      ctx.lineWidth = 0.5;
+      ctx.font = '10px sans-serif';
+      let numb = 0;
+      for (let yStep = height / 2; yStep > 25; yStep -= 25) {
+        ctx.moveTo(width / 2 - 5, yStep);
+        ctx.lineTo(width / 2 + 5, yStep);
+
+        if (numb !== 0) {
+          ctx.fillText(numb, width / 2 + 20, yStep);
+        }
+        numb += numb;
+      }
+      ctx.stroke();
+    }
+
+    // нарисовать деления на осях
+    positiveX();
+    negativeX();
+    negativeY();
+    positiveY();
+  }
+
+  // метод сброса точки в начало координат
+  reset() {
+    this.x = this.x0;
+    this.y = this.y0;
+  }
+
+  // метод задания точки по координатам x, y сетки (возвращает массив с координатами)
+  setPoint(x, y) {
+    return [this.x0 + x * this.step, this.y0 + y * -this.step];
+  }
+
+  // метод рисования точки
+  drawPoint(arr, color = 'red') {
+    const { ctx } = this;
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(arr[0], arr[1], 2, 0, Math.PI * 2, false);
+    ctx.fill();
+  }
+
+  // метод рисования линии
+  drawLine(firstPoint, secondPoint, color = 'red') {
+    const { ctx } = this;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(firstPoint[0], firstPoint[1]);
+    ctx.lineTo(secondPoint[0], secondPoint[1]);
+    ctx.stroke();
+  }
+
+  drawGrafic() {
+    const { ctx } = this;
+
+    ctx.strokeStyle = color || 'red';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(this.x0, this.y0);
+    ctx.lineTo(secondPoint[0], secondPoint[1]);
+    ctx.stroke();
+  }
+
+  // y = b * x
+  f2(b) {
+    const o = this.setPoint(0, 0);
+    const positive = this.setPoint(10, 10 * b);
+    const negative = this.setPoint(-10, -10 * b);
+
+    this.drawPoint(o);
+    this.drawLine(o, positive);
+    this.drawLine(o, negative);
+  }
+
+  // y = x + a
+  f1(a) {
+    const o = this.setPoint(0, a);
+    const positive = this.setPoint(10, 10 + a);
+    const negative = this.setPoint(-10, -10 + a);
+
+    this.drawPoint(o);
+    this.drawLine(o, positive);
+    this.drawLine(o, negative);
+  }
+
+  // y = (b * x) + a
+  f3(a, b) {
+    const o = this.setPoint(0, a);
+    const positive = this.setPoint(10, 10 * b + a);
+    const negative = this.setPoint(-10, -10 * b + a);
+
+    this.drawPoint(o);
+    this.drawLine(o, positive);
+    this.drawLine(o, negative);
+  }
+
+  // y = (b * x) + a
+  f4(a, b, c, d) {
+    const o1 = this.setPoint(0, a);
+    const positive1 = this.setPoint(10, 10 * b + a);
+    const negative1 = this.setPoint(-10, -10 * b + a);
+
+    this.drawPoint(o1);
+    this.drawLine(o1, positive1);
+    this.drawLine(o1, negative1);
+
+    // y = (d * x) + c
+    const o2 = this.setPoint(0, c);
+    const positive2 = this.setPoint(10, 10 * d + c);
+    const negative2 = this.setPoint(-10, -10 * d + c);
+
+    this.drawPoint(o2, 'blue');
+    this.drawLine(o2, positive2, 'blue');
+    this.drawLine(o2, negative2, 'blue');
+  }
 }
-
-// метод сброса точки в начало координат
-Chart.prototype.reset = function() {
-  this.x = this.x0;
-  this.y = this.y0;
-};
-
-// метод задания точки по координатам x, y сетки (возвращает массив с координатами)
-Chart.prototype.setPoint = function(x, y) {
-  return [this.x0 + x * this.step, this.y0 + y * -this.step];
-};
-
-// метод рисования точки
-Chart.prototype.drawPoint = function(arr, color) {
-  ctx.fillStyle = color || 'red';
-  ctx.beginPath();
-  ctx.arc(arr[0], arr[1], 2, 0, Math.PI * 2, false);
-  ctx.fill();
-};
-
-// метод рисования линии
-Chart.prototype.drawLine = function(firstPoint, secondPoint, color) {
-  ctx.strokeStyle = color || 'red';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(firstPoint[0], firstPoint[1]);
-  ctx.lineTo(secondPoint[0], secondPoint[1]);
-  ctx.stroke();
-};
-
-Chart.prototype.drawGrafic = function() {
-  ctx.strokeStyle = color || 'red';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(this.x0, this.y0);
-  ctx.lineTo(secondPoint[0], secondPoint[1]);
-  ctx.stroke();
-};
-
-// y = b * x
-Chart.prototype.f2 = function(b) {
-  const o = this.setPoint(0, 0);
-  const positive = this.setPoint(10, 10 * b);
-  const negative = this.setPoint(-10, -10 * b);
-
-  this.drawPoint(o);
-  this.drawLine(o, positive);
-  this.drawLine(o, negative);
-};
-
-// y = x + a
-Chart.prototype.f1 = function(a) {
-  const o = this.setPoint(0, a);
-  const positive = this.setPoint(10, 10 + a);
-  const negative = this.setPoint(-10, -10 + a);
-
-  this.drawPoint(o);
-  this.drawLine(o, positive);
-  this.drawLine(o, negative);
-};
-
-// y = (b * x) + a
-Chart.prototype.f3 = function(a, b) {
-  const o = this.setPoint(0, a);
-  const positive = this.setPoint(10, 10 * b + a);
-  const negative = this.setPoint(-10, -10 * b + a);
-
-  this.drawPoint(o);
-  this.drawLine(o, positive);
-  this.drawLine(o, negative);
-};
-
-// y = (b * x) + a
-Chart.prototype.f4 = function(a, b, c, d) {
-  const o1 = this.setPoint(0, a);
-  const positive1 = this.setPoint(10, 10 * b + a);
-  const negative1 = this.setPoint(-10, -10 * b + a);
-
-  this.drawPoint(o1);
-  this.drawLine(o1, positive1);
-  this.drawLine(o1, negative1);
-
-  // y = (d * x) + c
-  const o2 = this.setPoint(0, c);
-  const positive2 = this.setPoint(10, 10 * d + c);
-  const negative2 = this.setPoint(-10, -10 * d + c);
-
-  this.drawPoint(o2, 'blue');
-  this.drawLine(o2, positive2, 'blue');
-  this.drawLine(o2, negative2, 'blue');
-};
 
 const curentVars = {
   a: 0,
@@ -256,7 +287,11 @@ const curentVars = {
   },
 };
 
-const chart = new Chart();
+const chart = new Chart({
+  canvas: document.getElementById('canvas'),
+  setStep: 25,
+});
+
 chart.coordinateSystem();
 
 startBtn.addEventListener('click', () => {
