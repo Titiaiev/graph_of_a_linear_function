@@ -7,24 +7,34 @@ body {
     margin: 0;
 }
 
-#canvas-container {
-    width: 650px;
-    height: 650px;
-    display: block;
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+#canvases {
+    /* justify-content: center; */
+    margin: auto;
+}
+
+#controls {
+    /* background-color: #d0d76b; */
+    z-index: 100;
+    /* width: 90%; */
     margin: 0 auto;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    /* justify-items: flex-start */
 }
 
 #answers {
-    position: absolute;
-    bottom: 170px;
-    right: -235px;
     border: 1px solid #000;
-    padding: 10px;
+    padding: 7px;
     border-radius: 3px;
     opacity: 0.3;
     transition: all 0.4s ease-in-out;
-/*    width: 170px;*/
 }
 
 #answers tr:nth-child(1) {
@@ -52,31 +62,28 @@ body {
 }
 
 
-#canvas-container #start {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+#start {
     border: 0;
-    box-shadow: 1px 1px 2px #d585a3, -1px -1px 2px #d585a3;
+    /* box-shadow: 1px 1px 2px #d585a3, -1px -1px 2px #d585a3; */
     outline: 0;
+    border-radius: 2px;
+    padding: 10px;
     cursor: pointer;
     color: #fff;
-    background-color: #d585a3;
+    background-color: #4e7996;
     font-size: 18px;
     text-shadow: 1px 1px 4px #999;
-    /*margin: 20px;*/
-    position: absolute;
-    bottom: 30px;
-    right: -200px;
+    align-self: center;
+    margin: 0 20px;
 }
 
 
-#canvas-container #start:hover,
-#canvas-container #start:active {
-    background-color: #d76bc2;
+#start:hover,
+#start:active {
+    background-color: #37586e;
 }
 
-#canvas-container #start:active {
+#start:active {
     box-shadow: none;
 }
 
@@ -89,11 +96,9 @@ body {
     background-color: #999;
     color: #fff;
     font-size: 30px;
-    position: absolute;
-    bottom: 30px;
-    right: -250px;
     outline: none;
     outline: 0;
+    align-self: center;
 }
 
 #about-tip {
@@ -132,14 +137,12 @@ body {
     opacity: 1;
 }
 
-#canvas,
-#grid {
-    position: absolute;
-    top: 0;
-    left: 0;
+#chart {
     border:5px solid #999;
+    background-color: transparent;
 }
 
 #grid {
     opacity: 0.2;
+    position: absolute;
 }

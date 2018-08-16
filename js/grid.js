@@ -1,38 +1,33 @@
-drawGrid(25);
+export default function drawGrid({ canvas, setStep }) {
+  const grid = canvas.getContext('2d');
+  const gridWidth = canvas.width;
+  const gridHeight = canvas.height;
+  const step = setStep || 25;
 
-function drawGrid(step) {
-    "use strict"
-    var canvas2 = document.getElementById("grid");
-    var grid = canvas2.getContext("2d");
+  grid.strokeStyle = 'grey';
+  grid.lineWidth = 1;
 
-    var gridWidth = canvas2.width,
-        gridHeight = canvas2.height;
+  grid.beginPath();
 
-    var step = step || 25;
+  for (let i = gridWidth / 2 + step; i < gridWidth - step * 2; i += step) {
+    grid.moveTo(step * 2, i);
+    grid.lineTo(gridWidth - step * 2, i);
+  }
 
-    grid.strokeStyle = "black";
-    grid.lineWidth = 1;
+  for (let i = gridWidth / 2 - step; i > step * 2; i -= step) {
+    grid.moveTo(step * 2, i);
+    grid.lineTo(gridWidth - step * 2, i);
+  }
 
-    grid.beginPath();
-    for (var i = gridWidth / 2 + step; i < gridWidth - step; i += step) {
-        grid.moveTo(0, i);
-        grid.lineTo(gridWidth, i);
-    }
+  for (let i = gridHeight / 2 + step; i < gridHeight - step * 2; i += step) {
+    grid.moveTo(i, step * 2);
+    grid.lineTo(i, gridHeight - step * 2);
+  }
 
-    for (var i = gridWidth / 2 - step; i > step; i -= step) {
-        grid.moveTo(0, i);
-        grid.lineTo(gridWidth, i);
-    }
+  for (let i = gridHeight / 2 - step; i > step * 2; i -= step) {
+    grid.moveTo(i, step * 2);
+    grid.lineTo(i, gridHeight - step * 2);
+  }
 
-    for (var i = gridHeight / 2 + step; i < gridHeight - step; i += step) {
-        grid.moveTo(i, 0);
-        grid.lineTo(i, gridHeight);
-    }
-
-    for (var i = gridHeight / 2 - step; i > step; i -= step) {
-        grid.moveTo(i, 0);
-        grid.lineTo(i, gridHeight);
-    }
-    grid.stroke();
-
-};
+  grid.stroke();
+}
