@@ -11,36 +11,36 @@
 </head>
 
 <body>
-    <div id="canvas-container">
-
-        <canvas id="canvas" width="650" height="650"></canvas>
-        <canvas id="grid" width="650" height="650"></canvas>
+    <div id="app">
 
         <!-- окно описания -->
         <div id="about-tip">
             это тренажер линейной функции y = bx + a
             <button id="about-close" onclick="document.getElementById('about-tip').className = ''">ok</button>
         </div>
+        <div id="canvases"></div>
+        <div id="controls">
+            <table id="answers">
+                <tr>
+                    <td>y =
+                        <input type="text">
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <td>y =
+                        <input type="text">
+                    </td>
+                </tr>
+            </table>
 
-        <!-- кнопка ? При нажатии показывает описани скрипта -->
-        <button id="about" onclick="document.getElementById('about-tip').className ='show'">?</button>
+            <button id="start" data-state="start">Старт</button>
 
-
-        <table id="answers">
-            <tr>
-                <td>y = <input type="text"></td>
-            </tr>
-            <tr style="display: none">
-                <td>y = <input type="text"></td>
-            </tr>
-        </table>
-
-        <button id="start" data-state="start">Старт</button>
+            <!-- кнопка ? При нажатии показывает описани скрипта -->
+            <button id="about" onclick="document.getElementById('about-tip').className ='show'">?</button>
+        </div>
     </div>
 
-    <script src="js/grid.js"></script>
-    <script src="js/chart.js"></script>
-    <script src="js/inputParse.js"></script>
+    <script type="module" src="js/index.js"></script>
 </body>
 
 </html>

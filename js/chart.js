@@ -1,47 +1,3 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const { width, height } = canvas;
-
-const startBtn = document.getElementById('start');
-const table = document.getElementById('answers');
-const btnCheck = document.getElementById('start');
-const rows = document.querySelectorAll('table tr');
-const inputs = document.querySelectorAll('table input');
-const arrBD = [
-  -2,
-  -3,
-  -4,
-  -5,
-  -6,
-  -1 / 2,
-  -1 / 3,
-  -1 / 4,
-  -1 / 5,
-  -1 / 6,
-  2,
-  3,
-  4,
-  5,
-  6,
-  1 / 2,
-  1 / 3,
-  1 / 4,
-  1 / 5,
-  1 / 6,
-];
-
-function randomAC() {
-  return Math.floor(Math.random() * 21 - 10);
-} // console.log(randomA());
-
-function randomBD(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-} // console.log(randomB(arrB));
-
-function randomFunction() {
-  return Math.floor(Math.random() * 4 + 1);
-} // console.log(randomFunction());
-
 class Chart {
   constructor({ canvas, setStep }) {
     this.canvas = canvas;
@@ -70,6 +26,7 @@ class Chart {
 
   renderCoordinateSystem() {
     const { ctx, width, height } = this;
+    this.clear();
 
     // координатная плоскость
     ctx.lineWidth = 2;
@@ -96,12 +53,12 @@ class Chart {
     ctx.stroke();
 
     // функции прорисовки шкалы по соответствующим осям
-    function positiveX() {
+    function positiveX(step) {
       ctx.beginPath();
       ctx.lineWidth = 0.5;
       ctx.font = '10px sans-serif';
       let num = 0;
-      for (let xStep = width / 2; xStep < width - 25; xStep += 25) {
+      for (let xStep = width / 2; xStep < width - step * 2; xStep += step) {
         ctx.moveTo(xStep, height / 2 - 5);
         ctx.lineTo(xStep, height / 2 + 5);
 
@@ -113,12 +70,12 @@ class Chart {
       ctx.stroke();
     }
 
-    function negativeX() {
+    function negativeX(step) {
       ctx.beginPath();
       ctx.lineWidth = 0.5;
       ctx.font = '10px sans-serif';
       let number = 0;
-      for (let xStep = width / 2; xStep > 25; xStep -= 25) {
+      for (let xStep = width / 2; xStep > step * 2; xStep -= step) {
         ctx.moveTo(xStep, height / 2 - 5);
         ctx.lineTo(xStep, height / 2 + 5);
 
@@ -130,12 +87,12 @@ class Chart {
       ctx.stroke();
     }
 
-    function negativeY() {
+    function negativeY(step) {
       ctx.beginPath();
       ctx.lineWidth = 0.5;
       ctx.font = '10px sans-serif';
       let numb = 0;
-      for (let yStep = height / 2; yStep < height - 25; yStep += 25) {
+      for (let yStep = height / 2; yStep < height - step * 2; yStep += step) {
         ctx.moveTo(width / 2 - 5, yStep);
         ctx.lineTo(width / 2 + 5, yStep);
 
@@ -147,12 +104,12 @@ class Chart {
       ctx.stroke();
     }
 
-    function positiveY() {
+    function positiveY(step) {
       ctx.beginPath();
       ctx.lineWidth = 0.5;
       ctx.font = '10px sans-serif';
       let numb = 0;
-      for (let yStep = height / 2; yStep > 25; yStep -= 25) {
+      for (let yStep = height / 2; yStep > step * 2; yStep -= step) {
         ctx.moveTo(width / 2 - 5, yStep);
         ctx.lineTo(width / 2 + 5, yStep);
 
@@ -165,10 +122,10 @@ class Chart {
     }
 
     // нарисовать деления на осях
-    positiveX();
-    negativeX();
-    negativeY();
-    positiveY();
+    positiveX(this.step);
+    negativeX(this.step);
+    negativeY(this.step);
+    positiveY(this.step);
   }
 
   // метод задания точки по координатам x, y сетки (возвращает массив с координатами)
@@ -196,6 +153,11 @@ class Chart {
     ctx.moveTo(firstPoint[0], firstPoint[1]);
     ctx.lineTo(secondPoint[0], secondPoint[1]);
     ctx.stroke();
+  }
+
+  clear() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.strokeStyle = 'black';
   }
 
   // y = b * x
@@ -252,163 +214,4 @@ class Chart {
   }
 }
 
-const curentVars = {
-  a: 0,
-  b: 1,
-  c: 0,
-  d: 1,
-  choice: 0,
-  reset() {
-    this.a = 0;
-    this.b = 1;
-    this.c = 0;
-    this.d = 1;
-  },
-};
-
-const chart = new Chart({
-  canvas: document.getElementById('canvas'),
-  setStep: 25,
-});
-
-chart.renderCoordinateSystem();
-
-startBtn.addEventListener('click', () => {
-  // если кнопка в режиме "Старт"
-  if (startBtn.getAttribute('data-state') === 'start') {
-    ctx.clearRect(0, 0, width, height);
-    ctx.strokeStyle = 'black';
-    chart.coordinateSystem();
-    curentVars.choice = randomFunction();
-    switch (curentVars.choice) {
-      case 1:
-        curentVars.reset();
-        curentVars.a = randomAC();
-        console.clear();
-        console.log(`a:${curentVars.a}`);
-        rows[1].style.display = 'none';
-        chart.f1(curentVars.a);
-        break;
-      case 2:
-        curentVars.reset();
-        curentVars.b = randomBD(arrBD);
-        console.clear();
-        console.log(`b:${curentVars.b}`);
-        rows[1].style.display = 'none';
-        chart.f2(curentVars.b);
-        break;
-      case 3:
-        curentVars.reset();
-        curentVars.a = randomAC();
-        curentVars.b = randomBD(arrBD);
-        console.clear();
-        console.log(`a:${curentVars.a}; b:${curentVars.b}`);
-        rows[1].style.display = 'none';
-        chart.f3(curentVars.a, curentVars.b);
-        break;
-      case 4:
-        curentVars.reset();
-        curentVars.a = randomAC();
-        curentVars.b = randomBD(arrBD);
-        curentVars.c = randomAC();
-        curentVars.d = randomBD(arrBD);
-        console.clear();
-        console.log(`a:${curentVars.a}; b:${curentVars.b}; c:${curentVars.c}; d:${curentVars.d}`);
-        rows[1].style.display = 'block';
-        chart.f4(curentVars.a, curentVars.b, curentVars.c, curentVars.d);
-        break;
-
-      default:
-        console.log('Не одна из четыр функций не выбрана!');
-        break;
-    }
-  }
-
-  // если кнопка в режиме "Проверить"
-  else if (startBtn.getAttribute('data-state') === 'check') {
-    switch (curentVars.choice) {
-      case 1:
-        //                if (convertToFloat(inputs[1]) == curentVars.a && convertToFloat(inputs[0]) == curentVars.b) {
-        if (inputParse(inputs[0]).a == curentVars.a && inputParse(inputs[0]).b == curentVars.b) {
-          alert('Крутяк! Это правильный ответ!');
-          afterChecked();
-        } else if (!confirm('Не верно :( Подумай еще немного!')) {
-          afterChecked();
-        }
-        break;
-
-      case 2:
-        //                if (convertToFloat(inputs[1]) == curentVars.a && convertToFloat(inputs[0]) == curentVars.b) {
-        if (inputParse(inputs[0]).a == curentVars.a && inputParse(inputs[0]).b == curentVars.b) {
-          alert('Крутяк! Это правильный ответ!');
-          afterChecked();
-        } else if (!confirm('Не верно :( Подумай еще немного!')) {
-          afterChecked();
-        }
-        break;
-      case 3:
-        //                if (convertToFloat(inputs[1]) == curentVars.a && convertToFloat(inputs[0]) == curentVars.b) {
-        if (inputParse(inputs[0]).a == curentVars.a && inputParse(inputs[0]).b == curentVars.b) {
-          alert('Крутяк! Это правильный ответ!');
-          afterChecked();
-        } else if (!confirm('Не верно :( Подумай еще немного!')) {
-          afterChecked();
-        }
-        break;
-
-      case 4:
-        //                if (convertToFloat(inputs[1]) == curentVars.a && convertToFloat(inputs[0]) == curentVars.b && convertToFloat(inputs[3]) == curentVars.c && convertToFloat(inputs[2]) == curentVars.d) {
-        if (
-          inputParse(inputs[0]).a == curentVars.a &&
-          inputParse(inputs[0]).b == curentVars.b &&
-          inputParse(inputs[1]).a == curentVars.c &&
-          inputParse(inputs[1]).b == curentVars.d
-        ) {
-          alert('Крутяк! Это правильный ответ!');
-          afterChecked();
-        } else if (!confirm('Не верно :( Подумай еще немного!')) {
-          afterChecked();
-        }
-        break;
-
-      default:
-        console.log('Не одна из четыр проверок не сработала!');
-        afterChecked();
-        break;
-    }
-  }
-});
-
-function afterChecked() {
-  btnCheck.setAttribute('data-state', 'start');
-  btnCheck.innerText = 'Старт';
-  inputs[0].value = '';
-  inputs[1].value = '';
-}
-
-(function() {
-  for (let n = 0; n < inputs.length; n++) {
-    // если поле ввода в фокусе, то дать талице opacity: 1;
-    inputs[n].onfocus = function() {
-      table.style.opacity = '1';
-    };
-    // если поле ввода потеряло фокус, то дать таблице opacity: 0.3;
-    inputs[n].onblur = function(e) {
-      // table.style.opacity = "0.3";
-      if (e.target.value == '') {
-        console.log(e.target.value);
-        table.removeAttribute('style');
-      }
-    };
-    // во время ввода заменить значение data-state на check, что бы назначить кнопке другой поведение
-    inputs[n].oninput = function(e) {
-      if (e.target.value !== '') {
-        btnCheck.setAttribute('data-state', 'check');
-        btnCheck.innerText = 'Проверить';
-      } else {
-        btnCheck.setAttribute('data-state', 'start');
-        btnCheck.innerText = 'Старт';
-      }
-    };
-  }
-})();
+export default Chart;

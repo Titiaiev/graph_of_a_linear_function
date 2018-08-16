@@ -1,4 +1,4 @@
-function convertToFloatNum(arr) {
+export function convertToFloatNum(arr) {
   const newArrChars = arr;
 
   let argument1 = '';
@@ -7,13 +7,13 @@ function convertToFloatNum(arr) {
 
   let breakpoint;
   console.log(arr);
-  if (newArrChars.length == 0) {
+  if (newArrChars.length === 0) {
     return 1;
   }
 
   // находим первый аргумент
-  for (let j = 0; j < newArrChars.length; j++) {
-    if (newArrChars[j] == '/') {
+  for (let j = 0; j < newArrChars.length; j += 1) {
+    if (newArrChars[j] === '/') {
       breakpoint = j;
       break;
     }
@@ -21,7 +21,7 @@ function convertToFloatNum(arr) {
   } // console.log(argument1);
 
   // находим второй аргумент
-  for (let k = breakpoint + 1; k < newArrChars.length; k++) {
+  for (let k = breakpoint + 1; k < newArrChars.length; k += 1) {
     argument2 += newArrChars[k];
   } // console.log(argument2);
 
@@ -33,7 +33,7 @@ function convertToFloatNum(arr) {
   return +argument1 / +argument2;
 }
 
-function inputParse(input) {
+export function inputParse(input) {
   const data = {
     a: 0,
     b: 1,
@@ -45,7 +45,7 @@ function inputParse(input) {
   const _arrFromString = string.split('');
 
   // создаём масив из символов, удаляем пробелы
-  for (let i = 0; i < _arrFromString.length; i++) {
+  for (let i = 0; i < _arrFromString.length; i += 1) {
     if (_arrFromString[i] !== ' ' && _arrFromString[i] !== '*') {
       arrFromString.push(_arrFromString[i]);
     }
