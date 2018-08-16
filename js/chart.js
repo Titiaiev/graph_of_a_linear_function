@@ -1,3 +1,7 @@
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const { width, height } = canvas;
+
 const startBtn = document.getElementById('start');
 const table = document.getElementById('answers');
 const btnCheck = document.getElementById('start');
@@ -64,15 +68,7 @@ class Chart {
     return this.height / 2;
   }
 
-  get x() {
-    return this.width / 2;
-  }
-
-  get y() {
-    return this.height / 2;
-  }
-
-  coordinateSystem() {
+  renderCoordinateSystem() {
     const { ctx, width, height } = this;
 
     // координатная плоскость
@@ -112,7 +108,7 @@ class Chart {
         if (num !== 0) {
           ctx.fillText(num, xStep, height / 2 + 15);
         }
-        num += num;
+        num += 1;
       }
       ctx.stroke();
     }
@@ -129,7 +125,7 @@ class Chart {
         if (number !== 0) {
           ctx.fillText(-number, xStep, height / 2 - 15);
         }
-        number += number;
+        number += 1;
       }
       ctx.stroke();
     }
@@ -146,7 +142,7 @@ class Chart {
         if (numb !== 0) {
           ctx.fillText(-numb, width / 2 - 20, yStep);
         }
-        numb += numb;
+        numb += 1;
       }
       ctx.stroke();
     }
@@ -163,7 +159,7 @@ class Chart {
         if (numb !== 0) {
           ctx.fillText(numb, width / 2 + 20, yStep);
         }
-        numb += numb;
+        numb += 1;
       }
       ctx.stroke();
     }
@@ -173,12 +169,6 @@ class Chart {
     negativeX();
     negativeY();
     positiveY();
-  }
-
-  // метод сброса точки в начало координат
-  reset() {
-    this.x = this.x0;
-    this.y = this.y0;
   }
 
   // метод задания точки по координатам x, y сетки (возвращает массив с координатами)
@@ -204,17 +194,6 @@ class Chart {
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(firstPoint[0], firstPoint[1]);
-    ctx.lineTo(secondPoint[0], secondPoint[1]);
-    ctx.stroke();
-  }
-
-  drawGrafic() {
-    const { ctx } = this;
-
-    ctx.strokeStyle = color || 'red';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(this.x0, this.y0);
     ctx.lineTo(secondPoint[0], secondPoint[1]);
     ctx.stroke();
   }
@@ -292,7 +271,7 @@ const chart = new Chart({
   setStep: 25,
 });
 
-chart.coordinateSystem();
+chart.renderCoordinateSystem();
 
 startBtn.addEventListener('click', () => {
   // если кнопка в режиме "Старт"
