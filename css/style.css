@@ -145,4 +145,6 @@ body {
 #grid {
     opacity: 0.2;
     position: absolute;
+    /* FIXME: убрать этот костыль, разобраться почему возникло смещение */
+    transform: translate(5px, 5px)
 }
